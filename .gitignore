@@ -1,0 +1,14 @@
+# macOS metadata
+.DS_Store
+._*
+Icon?
+
+# Cowork templates (not committed — they live outside the repo)
+CLAUDE-CW.md
+devs-template.md
+
+# Glossary symlink (shared across projects)
+glossary.md
+
+# General context documents (Cowork-only)
+general-context-documents/
