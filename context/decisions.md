@@ -1,5 +1,33 @@
 # Decisions – CLEAgora
 
+## 2026-04-08 – cleagora.com as email sending domain
+
+**Context**: Discourse needs outbound SMTP for invitations, notifications, and password resets. The existing `h2ai.app` domain had no MX records and DNS access was unclear.
+
+**Decision**: Register `cleagora.com` as a dedicated domain. Use AWS SES in eu-west-3 for sending. Domain verified via DKIM (3 CNAME), SPF (TXT), DMARC (TXT). No MX record needed (outbound only).
+
+**Rejected alternatives**:
+- `h2ai.app` or `cleagora.h2ai.app` (less control over DNS, mixing concerns).
+- External SMTP provider like Mailgun/Sendgrid (additional vendor, SES is already in AWS).
+
+**Consequences**: `cleagora.com` DNS records to maintain. SES starts in sandbox mode — need production access request before real study. Emails come from `@cleagora.com` (clean, professional).
+
+***
+
+## 2026-04-08 – Clea bot account replaces system user for community posts
+
+**Context**: All study topics and moderation posts were created by the Discourse `system` account, which shows a generic black "C" avatar and "system" username — impersonal for respondents.
+
+**Decision**: Create a dedicated `clea` admin account with the h2\ icon as avatar. All API posts go through `clea`. Existing system posts reassigned. The `system` account is still used for admin API operations (theme management, site settings).
+
+**Rejected alternatives**:
+- Rename the `system` account (protected by Discourse, cannot be renamed).
+- Use Adrien's admin account for bot posts (mixes human and automated activity).
+
+**Consequences**: Two API usernames: `clea` for content creation (`.env` default), `system` for admin operations. The Clea persona gives the community a branded, approachable "host" identity.
+
+***
+
 ## 2026-04-08 – Dedicated EC2 instance for Discourse (not cohosting on h2-apps-1)
 
 **Context**: The plan was to deploy Discourse on h2-apps-1 (t3.small, 15.224.11.232) alongside existing services. Assessment revealed: only 1.9GB RAM total (~1GB free), 9.7GB disk free, ports 80/443 taken by nginx, Docker not installed, 3 apps already running (bse, pyra, tria).

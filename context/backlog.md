@@ -7,11 +7,13 @@
 
 - [x] **Design document** — Community architecture, respondent journey, animation model, technical architecture, implementation strategy. Flash deployment philosophy. Restructuration design.
 - [x] **Discourse instance setup** — EC2 deployment (t3.small, eu-west-3). HTTPS via Let's Encrypt at cleagora.h2ai.app. Admin account + API key.
-- [x] **Discourse API client (Python)** — `discourse_client/` module: HTTP client with auth + rate limiting, CRUD for topics/posts/users/groups, invite management.
-- [ ] **Discourse UX customization** — Apply all site settings (disable badges, likes, gamification, Discobot, simplify navigation). Install Trendy Login + Tab Bar for Mobile. CSS overrides to strip forum feel. Branded login page.
-- [ ] **Demo respondent account** — Create a test respondent to experience the full journey (invitation → login → participate).
-- [ ] **Study category structure** — Create the France Inter study categories (day-based), groups (`auditeurs`, `animateurs`, `chercheurs`), permissions matrix, sample topics with templates. Run `setup_france_inter.py`.
-- [ ] **SMTP setup** — Configure AWS SES (or alternative) for invitation emails and notifications. Domain verification (DKIM/SPF/DMARC).
+- [x] **Discourse API client (Python)** — `discourse_client/` module: HTTP client with auth + rate limiting, CRUD for topics/posts/users/groups, invite management, site settings.
+- [x] **Discourse UX customization** — Site settings applied (42+), translation overrides (42+ strings catégorie→module), h2\ color palette, light theme. CSS theme component created (sidebar cleanup, topic footer, tags hidden). **Partial**: theme JS (welcome banner, header title, footer hide) crashes — needs migration to Discourse 2026 JS module format.
+- [x] **Demo respondent account** — `marie_dupont` (Marie Dupont) in auditeurs group.
+- [x] **Study category structure** — 3 groups, 6 categories (Bienvenue, Module 1/2/3, Le café, Coulisses), 12 topics with prompts. Categories renamed from "Semaine N" to "Module N" with intro descriptions.
+- [x] **Branding** — CLEAgora logo, Clea bot account with h2\ avatar, community title set.
+- [ ] **Fix theme JS** — Migrate from deprecated `<script type="text/discourse-plugin">` to Discourse 2026 theme JS module format. Includes: welcome banner, header community title, "Alimenté par Discourse" footer hide, category description banners.
+- [ ] **SMTP setup** — SES domain identity created for `cleagora.com`, DNS records added, verification pending. Next: configure Discourse app.yml once verified, request SES production access.
 - [ ] **Basic extraction** — Pull all posts from a study category → JSON Lines output with full metadata (raw + cooked content, reply graph, user custom fields, reactions).
 - [ ] **Test with fake data** — Populate Discourse with ~10 fake respondents, ~30 posts across categories. Extract and verify output structure.
 
@@ -44,4 +46,4 @@
 - [ ] **QORA bridge** — Mixed-methods: community quali + structured quanti.
 
 ***
-*Last updated: 2026-04-08*
+*Last updated: 2026-04-08 (session #3)*

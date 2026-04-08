@@ -2,6 +2,49 @@
 
 <!-- Reverse chronological order: newest entries first. Always prepend below this line. -->
 
+## Dev session #3 – 2026-04-08 (Adrien B.)
+
+**Goal**: UX customization, France Inter study structure, demo respondent, SMTP setup, branding.
+
+**What we did**:
+- **SMTP/SES**: Registered `cleagora.com` domain. Created SES domain identity in eu-west-3. Generated DKIM tokens, SPF, DMARC records. DNS records added by PO — verification still pending (propagation).
+- **Discourse UX customization** (42+ site settings via API): closed community (login_required + invite_only), badges/likes/gamification disabled, Discobot disabled, navigation simplified, posting thresholds lowered, trust level gates zeroed, user directory hidden, suggested topics disabled, tags disabled.
+- **France Inter study structure**: created 3 groups (auditeurs, animateurs, chercheurs), 6 categories with permissions (Bienvenue, Module 1/2/3, Le café, Coulisses), 12 discussion topics with prompts, 2 pinned topics.
+- **Demo respondent**: `marie_dupont` (Marie Dupont) created, added to auditeurs group.
+- **Branding**: uploaded CLEAgora logo (PNG from PO), set community title "Communauté La Matinale de France Inter", created h2\ color palette (#425779/#E8622C/#0E131B/#86898D), switched to light theme, logo resized 25% smaller.
+- **Clea bot account**: created `clea` user with h2\ icon avatar, admin + animateurs + chercheurs. Reassigned 18 system posts to clea. `.env` updated to post as clea by default.
+- **Category renames**: "Semaine N" → "Module N". Updated descriptions with intro text for each module.
+- **Translation overrides**: 42+ Discourse UI strings changed "catégorie" → "module" (sidebar, breadcrumbs, topic titles, search, etc.).
+- **Theme component** (CLEAgora Customizations): CSS for hiding sidebar items (Inviter, Filtre, Sujets, Toutes les catégories, Mes messages), renaming "Catégories" → "MODULES" in sidebar, hiding "Créer un sujet" for non-staff, hiding topic footer buttons except Répondre, hiding tags, category description banner styling.
+- **Default categories** (Général, Responsables, Commentaires): restricted to staff-only or deleted.
+- **Scripts created**: `customize_discourse.py` (site settings), `apply_customizations.py` (text overrides + category renames), `apply_theme.py` (theme component CSS/JS).
+- **New client module**: `src/discourse_client/settings.py` (get/update site settings).
+
+**Known issue — theme JS crashes page render**:
+- The theme component's JS (welcome banner, community title in header, "Catégories"→"Modules" rename, category description banner) causes blank page. Root cause: Discourse 2026 deprecated `<script type="text/discourse-plugin">` and removed `controller:discovery/topics`. Standard `<script>` in `head_tag` also failed. Component is currently **detached** from Foundation theme to keep the site functional.
+- CSS-only customizations work fine. JS needs to be migrated to Discourse's new theme JS module format.
+
+**Not done (next session)**:
+- Fix theme JS (use Discourse 2026 theme JS module format instead of deprecated script tags)
+- Welcome banner with personalized greeting
+- Community title text in header bar
+- Hide welcome banner + search bar on homepage
+- Hide "Alimenté par Discourse" footer
+- Category description banners on module pages
+- SMTP: wait for SES domain verification, then configure Discourse app.yml + rebuild
+- SES production access request (currently sandbox — can only send to verified emails)
+- Test full respondent journey (invitation → login → participate)
+- Populate with fake respondent data (~10 users, ~30 posts)
+
+**Open questions**:
+
+**For PO**:
+- SES `cleagora.com` verification still pending — check DNS propagation. If still pending tomorrow, verify records at registrar.
+- Branding: the current logo works well. Do we want a favicon / mobile icon too?
+- Welcome text: "Bonjour [prénom] ! Ravis de t'avoir à bord..." — validate the tone/content before we re-implement the JS.
+
+***
+
 ## Dev session #2 – 2026-04-08 (Adrien B.)
 
 **Goal**: Deploy Discourse on AWS + build Python API client.
