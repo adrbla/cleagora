@@ -12,3 +12,16 @@ glossary.md
 
 # General context documents (Cowork-only)
 general-context-documents/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Environment
+.env

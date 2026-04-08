@@ -1,5 +1,47 @@
 # Decisions – CLEAgora
 
+## 2026-04-08 – Dedicated EC2 instance for Discourse (not cohosting on h2-apps-1)
+
+**Context**: The plan was to deploy Discourse on h2-apps-1 (t3.small, 15.224.11.232) alongside existing services. Assessment revealed: only 1.9GB RAM total (~1GB free), 9.7GB disk free, ports 80/443 taken by nginx, Docker not installed, 3 apps already running (bse, pyra, tria).
+
+**Decision**: Create a dedicated t3.small EC2 instance (`cleagora-discourse`, i-014b79d534f31b382, 13.38.105.2) for Discourse. Avoids resource contention and port conflicts.
+
+**Rejected alternatives**:
+- Cohosting on h2-apps-1 (insufficient RAM — Discourse needs 2GB minimum, port conflicts, risk to existing services).
+- t3.medium (4GB RAM, ~$30/mo) — comfortable but unnecessary for prototype with 2GB swap.
+
+**Consequences**: ~$15/mo additional AWS cost. Clean single-purpose instance. Discourse has full access to 2GB RAM + 2GB swap + 30GB disk. Independent lifecycle from other h2 services.
+
+***
+
+## 2026-04-08 – Information architecture: one category per study day/phase
+
+**Context**: Need to structure a 4-5 day qualitative research sprint. Options: flat topics in one category, topics tagged by day, or one category per day.
+
+**Decision**: One category per study day/phase. Categories provide permission control (hide future days), visual grouping on the homepage, and natural progressive disclosure. Tags are secondary (for research team thematic tagging, not respondent navigation).
+
+**Rejected alternatives**:
+- Single category + tags (flatter but tags are less visible, no permission control per day).
+- Flat topics with no categorization (every Discourse topic must belong to a category anyway, and no progressive disclosure).
+
+**Consequences**: The homepage categories view becomes the day-by-day agenda. Progressive disclosure via category permissions or topic timers. France Inter study structure: 3-5 day categories + Le café (free space) + Coulisses (staff-only).
+
+***
+
+## 2026-04-08 – Aggressive UX simplification for respondent experience
+
+**Context**: Discourse is designed for tech-savvy community users. CLEAgora respondents are regular people invited to share opinions over 4-5 days. Most forum features (badges, gamification, likes, trust levels, user directory, suggested topics) add noise and confusion.
+
+**Decision**: Strip Discourse to its essentials. Disable badges, likes, Discobot, user directory, suggested topics. Simplify navigation to categories-only. Lower posting thresholds. Install Trendy Login for branded login page, Tab Bar for mobile. Use CSS overrides to hide remaining visual noise (trust levels, stats, footer).
+
+**Rejected alternatives**:
+- Keep Discourse mostly vanilla (too much cognitive overhead for respondents, feels like "a tech forum").
+- Build a custom frontend (way too much work for exploration stage).
+
+**Consequences**: Respondent experience is clean and focused. Maintenance overhead from CSS overrides (fragile across Discourse updates, acceptable for short study sprints). Need to test the full respondent journey before each study.
+
+***
+
 ## 2026-04-07 – Deployment path: local Docker → AWS EC2
 
 **Context**: The original plan had three stages: local Docker (dev) → Hetzner VPS (prototype) → AWS h2\ (production). Hetzner added a migration step for a small cost benefit.

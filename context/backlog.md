@@ -6,9 +6,12 @@
 ## Now — Phase 1: Foundation (target: 2 weeks)
 
 - [x] **Design document** — Community architecture, respondent journey, animation model, technical architecture, implementation strategy. Flash deployment philosophy. Restructuration design.
-- [ ] **Discourse instance setup** — Docker-based local Discourse. Configure: `login_required`, `invite_only`, `default_trust_level: 1`, French locale. Enable bundled plugins (polls, reactions, data-explorer, automation).
-- [ ] **Discourse API client (Python)** — `discourse_client/` module: HTTP client with auth + rate limiting, CRUD for topics/posts/users/groups, invite management.
-- [ ] **Study category structure** — Create the France Inter study categories, groups (`auditeurs`, `animateurs`, `chercheurs`), permissions matrix, sample topics with topic templates.
+- [x] **Discourse instance setup** — EC2 deployment (t3.small, eu-west-3). HTTPS via Let's Encrypt at cleagora.h2ai.app. Admin account + API key.
+- [x] **Discourse API client (Python)** — `discourse_client/` module: HTTP client with auth + rate limiting, CRUD for topics/posts/users/groups, invite management.
+- [ ] **Discourse UX customization** — Apply all site settings (disable badges, likes, gamification, Discobot, simplify navigation). Install Trendy Login + Tab Bar for Mobile. CSS overrides to strip forum feel. Branded login page.
+- [ ] **Demo respondent account** — Create a test respondent to experience the full journey (invitation → login → participate).
+- [ ] **Study category structure** — Create the France Inter study categories (day-based), groups (`auditeurs`, `animateurs`, `chercheurs`), permissions matrix, sample topics with templates. Run `setup_france_inter.py`.
+- [ ] **SMTP setup** — Configure AWS SES (or alternative) for invitation emails and notifications. Domain verification (DKIM/SPF/DMARC).
 - [ ] **Basic extraction** — Pull all posts from a study category → JSON Lines output with full metadata (raw + cooked content, reply graph, user custom fields, reactions).
 - [ ] **Test with fake data** — Populate Discourse with ~10 fake respondents, ~30 posts across categories. Extract and verify output structure.
 
@@ -19,7 +22,7 @@
 - [ ] **Verbatim segmentation** — LLM-powered: segment posts into verbatims (minimal units of meaning), tag boundaries, link to source.
 - [ ] **Enrichment Layer 1 (descriptive)** — Per-verbatim: entities, sentiment, emotions, thematic tags.
 - [ ] **Enrichment Layer 2 (interactions)** — Reply graph, agreement/disagreement detection, influence scoring.
-- [ ] **Invitation workflow** — CSV bulk invite via API, auto-assign groups, branded email template, Discobot customization.
+- [ ] **Invitation workflow** — CSV bulk invite via API, auto-assign groups, branded email template.
 - [ ] **End-to-end integration test** — Full cycle: invite → participate → extract → segment → enrich.
 
 ## Later — Phase 3: Restructuration + Brief-to-Config
@@ -27,8 +30,6 @@
 - [ ] **Write-up generation** — LLM-powered Markdown generation: by respondent, by theme, by profile, by study question, synthesis. Template-driven.
 - [ ] **Brief → Config chain** — LLM parses free-text brief → generates structured YAML study config. Gap detection + structured supplement.
 - [ ] **Config → Discourse setup** — Auto-apply YAML config: create categories, groups, permissions, schedule topics, configure bot.
-- [ ] **Custom Discourse theme** — Study-branded, simplified UI.
-- [ ] **AWS EC2 deployment** — Discourse + CLEAgora services on h2\ AWS, SSL, SMTP, backups.
 
 ## Backlog — Future Vision
 
@@ -40,8 +41,7 @@
 - [ ] **Arcade integration** — Feed enriched JSON output into h2\ Arcade workspace.
 - [ ] **Multi-study support** — Multiple isolated studies on one Discourse instance.
 - [ ] **Longitudinal mode** — Diary studies / usage journals within the community.
-- [ ] **AWS production deployment** — h2\ infrastructure, monitoring, security.
 - [ ] **QORA bridge** — Mixed-methods: community quali + structured quanti.
 
 ***
-*Last updated: 2026-04-07*
+*Last updated: 2026-04-08*

@@ -1,0 +1,54 @@
+## Discourse Docker configuration for CLEAgora
+## Deployed on: cleagora-discourse (i-014b79d534f31b382, 13.38.105.2)
+## Path on server: /var/discourse/containers/app.yml
+
+templates:
+  - "templates/postgres.template.yml"
+  - "templates/redis.template.yml"
+  - "templates/web.template.yml"
+  - "templates/web.ratelimited.template.yml"
+  - "templates/web.ssl.template.yml"
+  - "templates/web.letsencrypt.ssl.template.yml"
+
+expose:
+  - "80:80"
+  - "443:443"
+
+params:
+  db_default_text_search_config: "pg_catalog.french"
+  db_shared_buffers: "128MB"
+  version: stable
+
+env:
+  DISCOURSE_DEFAULT_LOCALE: fr
+  DISCOURSE_HOSTNAME: cleagora.h2ai.app
+  DISCOURSE_DEVELOPER_EMAILS: ab@ubyx.com
+  LETSENCRYPT_ACCOUNT_EMAIL: ab@ubyx.com
+
+  ## SMTP — configure with SES credentials when ready
+  # DISCOURSE_SMTP_ADDRESS: email-smtp.eu-west-3.amazonaws.com
+  # DISCOURSE_SMTP_PORT: 587
+  # DISCOURSE_SMTP_USER_NAME:
+  # DISCOURSE_SMTP_PASSWORD:
+  # DISCOURSE_SMTP_ENABLE_START_TLS: true
+  # DISCOURSE_SMTP_DOMAIN: h2ai.app
+  # DISCOURSE_NOTIFICATION_EMAIL: noreply@h2ai.app
+
+  ## Memory optimization for t3.small (2GB)
+  UNICORN_WORKERS: 2
+  DISCOURSE_MAX_REQS_PER_IP_PER_MINUTE: 200
+  DISCOURSE_MAX_REQS_PER_IP_MODE: none
+
+volumes:
+  - volume:
+      host: /var/discourse/shared/standalone
+      guest: /shared
+  - volume:
+      host: /var/discourse/shared/standalone/log/var-log
+      guest: /var/log
+
+## Note: data-explorer, automation, reactions plugins are bundled with Discourse
+## since late 2025. Do NOT add them to after_code hooks.
+
+run:
+  - exec: echo "Beginning of custom commands"

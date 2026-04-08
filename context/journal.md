@@ -2,6 +2,42 @@
 
 <!-- Reverse chronological order: newest entries first. Always prepend below this line. -->
 
+## Dev session #2 – 2026-04-08 (Adrien B.)
+
+**Goal**: Deploy Discourse on AWS + build Python API client.
+
+**What we did**:
+- Explored h2-apps-1 (i-068957687f162210f, 15.224.11.232): too loaded for Discourse (1.9GB RAM, 3 apps running, nginx on 80/443, no Docker). Decision: create dedicated instance.
+- Created dedicated EC2 instance `cleagora-discourse` (i-014b79d534f31b382, t3.small, Ubuntu 24.04, eu-west-3, IP 13.38.105.2). Security group `cleagora-sg` (ports 22/80/443). Added 2GB swap.
+- Deployed Discourse via `discourse_docker`. Bootstrap issues resolved: (1) `LC_ALL`/`LANG` locale env vars break bootstrap — use `DISCOURSE_DEFAULT_LOCALE: fr` only; (2) data-explorer, automation, reactions plugins are now bundled — do NOT add them to `after_code` hooks.
+- Enabled Let's Encrypt SSL after DNS propagation. Discourse live at **https://cleagora.h2ai.app**.
+- Created admin account (`adrien` / ab@ubyx.com) via Rails console. Generated global API key.
+- Built Python project structure: `src/discourse_client/` (client.py, categories.py, topics.py, users.py), `scripts/setup_france_inter.py`, `pyproject.toml`. Dependencies: httpx, pydantic, python-dotenv. All installs and lints clean.
+- Tested Python client against live Discourse API — works.
+- Researched Discourse customization for private qualitative research communities: branding, feature removal, information architecture, respondent experience flow. Comprehensive settings list ready for next session.
+
+**Decisions**:
+- **Dedicated EC2 for Discourse** (not h2-apps-1): h2-apps-1 too loaded (RAM, disk, port conflicts). See decisions.md.
+- **Information architecture**: one category per study day/phase (not flat topics, not tags-only). Categories provide permission control and progressive disclosure.
+- **UX strategy**: strip Discourse down aggressively (disable badges, likes, gamification, Discobot, user directory, suggested topics), install Trendy Login for branded login page, Tab Bar for mobile.
+
+**Not done (next session)**:
+- Apply all Discourse site settings (badges off, likes off, navigation simplification, etc.)
+- Install theme components (Trendy Login, Tab Bar for Mobile) + CSS overrides
+- Create demo respondent account for UX testing
+- Create France Inter mockup categories and topics
+- Customize branding, email templates, welcome PM
+- SMTP setup (no email sending yet — admin activated via Rails console)
+
+**Open questions**:
+
+**For PO**:
+- SMTP: need to set up SES for `h2ai.app` domain (DKIM/SPF/DMARC verification). Or use another provider?
+- Branding: do we have a logo/visual identity for CLEAgora or for the France Inter study?
+- Demo: how many days for the mockup study sprint? 4 or 5? (affects category structure)
+
+***
+
 ## Dev session #1 – 2026-04-07 (Adrien B.)
 
 **Goal**: First Claude Code session — project initialization.

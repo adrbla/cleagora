@@ -43,7 +43,7 @@ CLEAgora is a module within the DECODia ecosystem. It inherits DECODia's foundat
 
 - **Closed community**: no public registration; email invitation only.
 - **Discourse ecosystem**: work within Discourse's plugin/theme/API architecture — avoid core forks.
-- **Infra**: Hetzner for prototype, AWS (h2\ infrastructure) for production.
+- **Infra**: AWS EC2 (h2\ infrastructure) for both prototype and production.
 - **Sovereignty**: data must remain on controlled infrastructure (no third-party SaaS for Discourse hosting in production).
 - **Team**: small team, vibe-coding workflow with AI assistance.
 - **Timeline**: prototype-first, iterate from real usage.

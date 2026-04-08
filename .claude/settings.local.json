@@ -2,7 +2,20 @@
   "permissions": {
     "allow": [
       "Bash(git config:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(docker info:*)",
+      "Bash(docker compose:*)",
+      "Bash(docker:*)",
+      "WebSearch",
+      "WebFetch(domain:meta.discourse.org)",
+      "Bash(git clone:*)",
+      "Bash(aws:*)",
+      "Bash(ssh:*)",
+      "Bash(python3:*)",
+      "Bash(source:*)",
+      "Bash(curl:*)",
+      "Bash(dig +short:*)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }
