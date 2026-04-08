@@ -35,12 +35,9 @@ CSS = """
 .welcome-banner__wrapper,
 .search-banner,
 .custom-search-banner,
-.search-container,
 .homepage-hero-search,
 .search-banner-container,
-.custom-homepage-welcome-header,
-[class*="welcome-banner"],
-[class*="welcome_banner"] {
+.custom-homepage-welcome-header {
   display: none !important;
 }
 
@@ -165,31 +162,35 @@ body:not(.staff) .btn-default.create-topic {
   display: none !important;
 }
 
-/* === Category description banner === */
-.cleagora-category-banner {
+/* === Category description banners (CSS-only, per-category) === */
+body[class*="category-"] .category-breadcrumb::after {
+  display: block;
   background: #f4f6f8;
   border-left: 4px solid var(--tertiary);
   padding: 12px 16px;
-  margin-bottom: 16px;
+  margin: 12px 0 4px 0;
   border-radius: 0 6px 6px 0;
   font-size: 0.95em;
   line-height: 1.5;
   color: #333;
 }
-.cleagora-category-banner p {
-  margin: 0 0 6px 0;
+body.category-bienvenue .category-breadcrumb::after {
+  content: "Bienvenue dans votre espace auditeurs ! Vous trouverez ici les informations pratiques et les règles de fonctionnement.";
 }
-.cleagora-category-banner p:last-child {
-  margin-bottom: 0;
+body.category-semaine-1-votre-matinale .category-breadcrumb::after {
+  content: "Dans ce module, on explore votre relation à la matinale de France Inter. Vos habitudes d'écoute, ce qui vous accroche, ce qui vous fait décrocher.";
 }
-
-/* === Hide "About" topic from category topic lists === */
-tr.topic-list-item td.main-link a[href*="propos-du-module"] {
-  /* Can't reliably target by href — hide pinned "about" topics instead */
+body.category-semaine-2-reactions-debats .category-breadcrumb::after {
+  content: "Dans ce module, on passe aux réactions concrètes. Donnez votre avis sur les chroniques, le traitement de l'actu et la place de l'humour !";
 }
-.topic-list-item.pinned .link-top-line .topic-statuses .pinned,
-.category-topic-link[data-topic-id] {
-  /* fallback: keep visible */
+body.category-semaine-3-et-si-on-imaginait .category-breadcrumb::after {
+  content: "Dans ce module, on passe du constat à la proposition. Quelle serait votre matinale idéale, que changeriez-vous ?";
+}
+body.category-le-cafe .category-breadcrumb::after {
+  content: "Le café, c'est votre espace libre. Discutez de ce que vous voulez, échangez entre auditeurs !";
+}
+body.category-coulisses .category-breadcrumb::after {
+  content: "Espace réservé à l'équipe de recherche. Notes d'animation, signaux à creuser, coordination.";
 }
 
 /* === Rename "Catégories" to "Modules" in sidebar === */

@@ -2,6 +2,42 @@
 
 <!-- Reverse chronological order: newest entries first. Always prepend below this line. -->
 
+## Dev session #4 – 2026-04-08 (Adrien B.)
+
+**Goal**: UI tweaks, fake data population, splash page, branding polish.
+
+**What we did**:
+- **Category description banners** (CSS-only): added per-category `::after` pseudo-elements on `.category-breadcrumb`, scoped via `body.category-{slug}`. Shows 1-2 sentence intro above topic list for each module. No JS needed.
+- **"À propos" topics hidden**: Discourse protects category definition topics from deletion. Solution: unpinned + unlisted all 8 "About" topics — invisible to regular users.
+- **FAQ rewritten**: replaced generic Discourse FAQ with content adapted for quali respondents (bienvenue, comment participer, échanges sereins, confidentialité, aide).
+- **Splash/welcome page** (`assets/welcome.html`): standalone HTML page for respondent onboarding. Warm, human tone. Hero + 3 steps + 4 reassurance blocks + CTA to cleagora.h2ai.app. Can be shown independently for demos.
+- **Fake data populated**: 10 respondent accounts created (Sophie, Thomas, Nathalie, Julien, Claire, Patrick, Amina, François, Lucie, Marc), all in `auditeurs` group, trust level 2. ~42 realistic posts across all 9 study topics + 1 free topic in Le café. Varied writing styles, @mentions, debates.
+- **Site icon/favicon**: uploaded Clea's h2\ avatar as `logo_small`, `favicon`, and `large_icon`.
+- **Theme component re-attached** to Foundation (was detached since session #3 due to JS crash). CSS works fine; JS welcome banner attempted but not rendering (deferred).
+- **CSS fixes**: removed overly aggressive wildcard selectors (`[class*="welcome-banner"]`, `.search-container`) that were hiding homepage content.
+- **Le café permissions fixed**: category had lost group permissions; restored auditeurs=create, animateurs=create, chercheurs=see.
+
+**Known issues**:
+- **Welcome banner JS** (`theme-head.html`): `<script>` tag with `Discourse.User.current()` doesn't execute — possibly blocked by Discourse CSP or the global isn't available at that point. Debug logging added but untested. Needs investigation with browser console.
+- **Le café posts**: users couldn't post to Le café despite correct permissions — had to fall back to `system` user. Possibly Discourse permission cache issue after update. Needs testing.
+- **Category description `description_text`** may have been cleared on some categories when About topics were unlisted (they're linked in Discourse). CSS banners replace the visual, but API `description_text` may be empty. Not blocking for now.
+
+**Not done (next session)**:
+- Fix welcome banner JS (try `apiInitializer` gjs format instead of head_tag script)
+- SMTP: SES domain verification still pending, configure Discourse app.yml
+- SES production access request
+- Test full respondent journey (invitation → login → participate)
+- Basic extraction pipeline (posts → JSON Lines)
+
+**Open questions**:
+
+**For PO**:
+- Welcome page (`assets/welcome.html`): validated? Want any content/tone changes?
+- SES cleagora.com: DNS verification status?
+- Ready to show the demo to stakeholders?
+
+***
+
 ## Dev session #3 – 2026-04-08 (Adrien B.)
 
 **Goal**: UX customization, France Inter study structure, demo respondent, SMTP setup, branding.

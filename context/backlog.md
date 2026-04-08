@@ -12,10 +12,14 @@
 - [x] **Demo respondent account** — `marie_dupont` (Marie Dupont) in auditeurs group.
 - [x] **Study category structure** — 3 groups, 6 categories (Bienvenue, Module 1/2/3, Le café, Coulisses), 12 topics with prompts. Categories renamed from "Semaine N" to "Module N" with intro descriptions.
 - [x] **Branding** — CLEAgora logo, Clea bot account with h2\ avatar, community title set.
-- [ ] **Fix theme JS** — Migrate from deprecated `<script type="text/discourse-plugin">` to Discourse 2026 theme JS module format. Includes: welcome banner, header community title, "Alimenté par Discourse" footer hide, category description banners.
+- [x] **Category description banners** — CSS-only `::after` pseudo-elements on `.category-breadcrumb` scoped via `body.category-{slug}`. Replaces "À propos" topics (unlisted).
+- [x] **FAQ rewritten** — Adapted for quali respondents (vs. generic Discourse).
+- [x] **Splash/welcome page** — `assets/welcome.html`, standalone, demo-ready.
+- [x] **Fake data populated** — 10 respondents, ~42 posts across all topics. Realistic content with varied styles.
+- [x] **Site icon/favicon** — Clea h2\ avatar as logo_small, favicon, large_icon.
+- [ ] **Fix theme JS** — Welcome banner with personalized greeting. `<script>` in head_tag doesn't execute. Try Discourse 2026 `apiInitializer` gjs format via `extra_js` theme field.
 - [ ] **SMTP setup** — SES domain identity created for `cleagora.com`, DNS records added, verification pending. Next: configure Discourse app.yml once verified, request SES production access.
 - [ ] **Basic extraction** — Pull all posts from a study category → JSON Lines output with full metadata (raw + cooked content, reply graph, user custom fields, reactions).
-- [ ] **Test with fake data** — Populate Discourse with ~10 fake respondents, ~30 posts across categories. Extract and verify output structure.
 
 ## Next — Phase 2: Bot + Enrichment + Verbatim Pipeline
 
@@ -46,4 +50,4 @@
 - [ ] **QORA bridge** — Mixed-methods: community quali + structured quanti.
 
 ***
-*Last updated: 2026-04-08 (session #3)*
+*Last updated: 2026-04-08 (session #4)*

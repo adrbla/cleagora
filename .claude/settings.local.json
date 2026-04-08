@@ -15,7 +15,16 @@
       "Bash(source:*)",
       "Bash(curl:*)",
       "Bash(dig +short:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(grep -E \"\\\\.\\(py|md|json|yml|yaml\\)$\")",
+      "Bash(grep -E \"\\\\.md$|\\\\.yml$\")",
+      "Bash(git status:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(gh api:*)",
+      "Bash(grep -E '\\\\.\\(js|gjs|hbs|ts\\)$')",
+      "Bash(open:*)"
     ]
   }
 }

@@ -1,1 +1,44 @@
-<!-- CLEAgora customizations - JS disabled for debugging -->
+<script>
+// CLEAgora — Welcome banner on homepage (debug version)
+(function() {
+  var attempts = 0;
+  var checkInterval = setInterval(function() {
+    attempts++;
+    if (attempts > 30) { clearInterval(checkInterval); console.log("[CLEAgora] gave up after 30 attempts"); return; }
+
+    var mainOutlet = document.querySelector("#main-outlet-wrapper") || document.querySelector("#main-outlet") || document.querySelector(".ember-application");
+    console.log("[CLEAgora] attempt " + attempts + " mainOutlet=" + (mainOutlet ? mainOutlet.className || mainOutlet.id : "null") + " Discourse=" + (typeof Discourse) + " path=" + window.location.pathname);
+
+    if (!mainOutlet) return;
+
+    var isHomepage = /^\/(latest|categories)?\/?$/.test(window.location.pathname);
+    if (!isHomepage) { clearInterval(checkInterval); console.log("[CLEAgora] not homepage, stopping"); return; }
+    if (document.querySelector(".cleagora-welcome")) { clearInterval(checkInterval); return; }
+
+    var firstName = "";
+    try {
+      if (typeof Discourse !== "undefined" && Discourse.User && Discourse.User.current()) {
+        var user = Discourse.User.current();
+        firstName = (user.name || user.username || "").split(" ")[0];
+        console.log("[CLEAgora] user found: " + firstName);
+      } else if (typeof Discourse !== "undefined" && Discourse.__container__) {
+        var currentUser = Discourse.__container__.lookup("service:current-user");
+        if (currentUser) {
+          firstName = (currentUser.name || currentUser.username || "").split(" ")[0];
+          console.log("[CLEAgora] user via container: " + firstName);
+        }
+      }
+    } catch(e) { console.log("[CLEAgora] error: " + e); }
+
+    if (!firstName) return;
+
+    clearInterval(checkInterval);
+    var banner = document.createElement("div");
+    banner.className = "cleagora-welcome";
+    banner.innerHTML = '<h2>Bonjour ' + firstName + ' !</h2>' +
+      '<p class="welcome-text">Ravis de vous retrouver. Explorez les modules et partagez vos opinions !</p>';
+    mainOutlet.prepend(banner);
+    console.log("[CLEAgora] banner inserted");
+  }, 500);
+})();
+</script>
